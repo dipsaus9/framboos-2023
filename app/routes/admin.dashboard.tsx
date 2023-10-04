@@ -70,13 +70,13 @@ export default function Dashboard() {
             </h2>
             {tournament ? (
               <>
-                <p>Tournament state: {tournament.tournament.state}</p>
+                <p>Tournament state: {tournament.tournamentState}</p>
                 {tournament.game ? (
                   <>
                     <p>Game ID: {tournament.game.gameId}</p>
                     <p>Phase: {tournament.game.phase}</p>
                     {/* @ts-expect-error */}
-                    <p>Round: {tournament.tournament.round}</p>
+                    <p>Round: {tournament.round}</p>
                     <p>
                       Total amount of players: {tournament.game.players.length}
                     </p>

@@ -1,7 +1,7 @@
 import type { LoaderFunctionArgs } from '@remix-run/node'
 import { typedjson } from 'remix-typedjson'
 
-import { getGameStatusForPlayer } from '~/lib/api/@generated/framboos'
+import { getGameForPlayer } from '~/lib/api/@generated/framboos'
 import { isLoggedIn } from '~/services/auth.server'
 
 export async function loader({ request }: LoaderFunctionArgs) {
@@ -39,7 +39,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
   const { playerId } = jsonValue
 
-  const { maze, players } = await getGameStatusForPlayer({
+  const { maze, players } = await getGameForPlayer({
     playerId,
   }).catch(() => {
     return {

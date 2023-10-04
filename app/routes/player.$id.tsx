@@ -4,7 +4,7 @@ import { typedjson, useTypedLoaderData } from 'remix-typedjson'
 
 import { MazeView } from '~/components/Maze'
 import {
-  getGameStatusForPlayer,
+  getGameForPlayer,
   getTournamentState,
 } from '~/lib/api/@generated/framboos'
 
@@ -39,7 +39,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
     })
   }
 
-  const { maze, players } = await getGameStatusForPlayer({
+  const { maze, players } = await getGameForPlayer({
     playerId,
   }).catch(() => {
     return {

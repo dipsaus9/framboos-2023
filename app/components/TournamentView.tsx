@@ -5,6 +5,7 @@ import type { TournamentDTO } from '~/lib/api/@generated/framboos.schemas'
 import { POLLING_INTERVAL } from '~/lib/POLLING_INTERVAL'
 
 import { MazeView } from './Maze'
+import {TournamentDTOTournamentState} from "~/lib/api/@generated/framboos.schemas";
 
 interface TournamentViewProps {
   tournament: TournamentDTO
@@ -19,7 +20,7 @@ export function TournamentView({ tournament }: TournamentViewProps) {
     }
   }, POLLING_INTERVAL)
 
-  if (tournament.tournament.state !== 'Playing') {
+  if (tournament.tournamentState !== TournamentDTOTournamentState.Playing) {
     return <p>Waiting for players to be ready...</p>
   }
 
