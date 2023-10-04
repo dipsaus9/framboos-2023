@@ -1,0 +1,593 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "OpenAPI definition",
+        "version": "v0"
+    },
+    "servers": [{
+            "url": "http://localhost:8080/raspberry-runaround",
+            "description": "Generated server url"
+        }
+    ],
+    "paths": {
+        "/admin/tournament": {
+            "get": {
+                "tags": ["admin-api"],
+                "summary": "Get tournament state",
+                "operationId": "getTournamentState",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TournamentDTO"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [{
+                        "AdminAPI": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": ["admin-api"],
+                "summary": "Proceed the tournament",
+                "operationId": "proceedTournament",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TournamentDTO"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [{
+                        "AdminAPI": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": ["admin-api"],
+                "summary": "Create a new tournament",
+                "operationId": "startTournament",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [{
+                        "AdminAPI": []
+                    }
+                ]
+            }
+        },
+        "/player": {
+            "post": {
+                "tags": ["player-api"],
+                "summary": "Register a new player (or verify the registration of an existing player)",
+                "operationId": "registerPlayer",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PlayerRegistrationRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PlayerRegistrationResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/game/move": {
+            "post": {
+                "tags": ["game-api"],
+                "summary": "Move the player in the maze",
+                "operationId": "move",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/MoveRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CurrentGameState"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [{
+                        "GameAPI": []
+                    }
+                ]
+            }
+        },
+        "/admin/reset": {
+            "post": {
+                "tags": ["admin-api"],
+                "summary": "Reset running games and tournament",
+                "operationId": "reset",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [{
+                        "AdminAPI": []
+                    }
+                ]
+            }
+        },
+        "/player/{playerId}": {
+            "get": {
+                "tags": ["player-api"],
+                "summary": "Get the current game state for the given player",
+                "operationId": "getCurrentGameState",
+                "parameters": [{
+                        "name": "playerId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CurrentGameState"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/player/supported-emoji": {
+            "get": {
+                "tags": ["player-api"],
+                "summary": "Get the list of supported emoji for the player profile",
+                "operationId": "getSupportedEmoji",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Emoji"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/game/{gameId}": {
+            "get": {
+                "tags": ["game-api"],
+                "summary": "Get the current game state for the given game ID (only available in practice mode!!!)",
+                "operationId": "getCurrentGameState_1",
+                "parameters": [{
+                        "name": "gameId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GameDTO"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [{
+                        "GameAPI": []
+                    }
+                ]
+            }
+        },
+        "/admin/players": {
+            "get": {
+                "tags": ["admin-api"],
+                "summary": "Get the list of registered players",
+                "operationId": "getPlayers",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Player"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [{
+                        "AdminAPI": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": ["admin-api"],
+                "summary": "Delete all players",
+                "operationId": "removeAllPlayers",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [{
+                        "AdminAPI": []
+                    }
+                ]
+            }
+        },
+        "/admin/game/{gameId}": {
+            "get": {
+                "tags": ["admin-api"],
+                "summary": "Get the status of a running practice game",
+                "operationId": "getPracticeGameSummary",
+                "parameters": [{
+                        "name": "gameId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GameDTO"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [{
+                        "AdminAPI": []
+                    }
+                ]
+            }
+        },
+        "/admin/game/{gameId}/ascii": {
+            "get": {
+                "tags": ["admin-api"],
+                "summary": "Get a maze from a practice game as ASCII art",
+                "operationId": "printMaze",
+                "parameters": [{
+                        "name": "gameId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [{
+                        "AdminAPI": []
+                    }
+                ]
+            }
+        },
+        "/admin/players/{id}": {
+            "delete": {
+                "tags": ["admin-api"],
+                "summary": "Delete a registered player",
+                "operationId": "removePlayer",
+                "parameters": [{
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [{
+                        "AdminAPI": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "GameDTO": {
+                "required": ["gameId", "maze", "players"],
+                "type": "object",
+                "properties": {
+                    "gameId": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "maze": {
+                        "$ref": "#/components/schemas/MazeDTO"
+                    },
+                    "players": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/PlayerDTO"
+                        }
+                    }
+                }
+            },
+            "MazeCellDTO": {
+                "required": ["walls"],
+                "type": "object",
+                "properties": {
+                    "walls": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "enum": ["Up", "Down", "Left", "Right"]
+                        }
+                    }
+                }
+            },
+            "MazeDTO": {
+                "required": ["cells", "finishingPoint", "shortestPath", "size", "startingPoint"],
+                "type": "object",
+                "properties": {
+                    "size": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "cells": {
+                        "type": "array",
+                        "items": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/components/schemas/MazeCellDTO"
+                            }
+                        }
+                    },
+                    "startingPoint": {
+                        "$ref": "#/components/schemas/Point"
+                    },
+                    "finishingPoint": {
+                        "$ref": "#/components/schemas/Point"
+                    },
+                    "shortestPath": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Point"
+                        }
+                    }
+                }
+            },
+            "PlayerDTO": {
+                "required": ["emoji", "name", "nrOfMoves", "playerId", "position", "state"],
+                "type": "object",
+                "properties": {
+                    "playerId": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "emoji": {
+                        "type": "string"
+                    },
+                    "position": {
+                        "$ref": "#/components/schemas/Point"
+                    },
+                    "nrOfMoves": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "state": {
+                        "type": "string",
+                        "enum": ["Exploring", "SpeedRunning", "Finished"]
+                    }
+                }
+            },
+            "Point": {
+                "required": ["x", "y"],
+                "type": "object",
+                "properties": {
+                    "x": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "y": {
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                }
+            },
+            "TournamentDTO": {
+                "required": ["tournament"],
+                "type": "object",
+                "properties": {
+                    "tournament": {
+                        "$ref": "#/components/schemas/TournamentState"
+                    },
+                    "game": {
+                        "$ref": "#/components/schemas/GameDTO"
+                    }
+                }
+            },
+            "TournamentState": {
+                "required": ["state"],
+                "type": "object",
+                "properties": {
+                    "state": {
+                        "type": "string"
+                    }
+                }
+            },
+            "PlayerRegistrationRequest": {
+                "required": ["name", "password"],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "emojiAlias": {
+                        "type": "string"
+                    }
+                }
+            },
+            "PlayerRegistrationResponse": {
+                "required": ["status"],
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "enum": ["Registered", "Invalid"]
+                    }
+                }
+            },
+            "MoveRequest": {
+                "required": ["direction", "gameId", "playerId"],
+                "type": "object",
+                "properties": {
+                    "gameId": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "playerId": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "direction": {
+                        "type": "string",
+                        "enum": ["Up", "Down", "Left", "LeftUp", "LeftDown", "Right", "RightUp", "RightDown"]
+                    }
+                }
+            },
+            "CurrentGameState": {
+                "required": ["state"],
+                "type": "object",
+                "properties": {
+                    "state": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Emoji": {
+                "required": ["aliases", "description", "emoji"],
+                "type": "object",
+                "properties": {
+                    "emoji": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "aliases": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "Player": {
+                "required": ["emoji", "id", "name"],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "emoji": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "GameAPI": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "password"
+            },
+            "AdminAPI": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "UUID"
+            }
+        }
+    }
+}

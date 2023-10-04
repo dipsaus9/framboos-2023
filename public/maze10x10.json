@@ -1,0 +1,693 @@
+{
+  "maze": {
+    "size": 10,
+    "cells": [
+      [
+        {
+          "walls": [
+            "Up",
+            "Left"
+          ]
+        },
+        {
+          "walls": [
+            "Up",
+            "Right"
+          ]
+        },
+        {
+          "walls": [
+            "Up",
+            "Left",
+            "Right"
+          ]
+        },
+        {
+          "walls": [
+            "Up",
+            "Down",
+            "Left"
+          ]
+        },
+        {
+          "walls": [
+            "Up"
+          ]
+        },
+        {
+          "walls": [
+            "Up"
+          ]
+        },
+        {
+          "walls": [
+            "Up",
+            "Right"
+          ]
+        },
+        {
+          "walls": [
+            "Up",
+            "Down",
+            "Left"
+          ]
+        },
+        {
+          "walls": [
+            "Up",
+            "Right"
+          ]
+        },
+        {
+          "walls": [
+            "Up",
+            "Left",
+            "Right"
+          ]
+        }
+      ],
+      [
+        {
+          "walls": [
+            "Down",
+            "Left",
+            "Right"
+          ]
+        },
+        {
+          "walls": [
+            "Left",
+            "Right"
+          ]
+        },
+        {
+          "walls": [
+            "Left",
+            "Right"
+          ]
+        },
+        {
+          "walls": [
+            "Up",
+            "Down",
+            "Left"
+          ]
+        },
+        {
+          "walls": [
+            "Right"
+          ]
+        },
+        {
+          "walls": [
+            "Down",
+            "Left",
+            "Right"
+          ]
+        },
+        {
+          "walls": [
+            "Down",
+            "Left",
+            "Right"
+          ]
+        },
+        {
+          "walls": [
+            "Up",
+            "Left"
+          ]
+        },
+        {
+          "walls": [
+            "Right"
+          ]
+        },
+        {
+          "walls": [
+            "Left",
+            "Right"
+          ]
+        }
+      ],
+      [
+        {
+          "walls": [
+            "Up",
+            "Left",
+            "Right"
+          ]
+        },
+        {
+          "walls": [
+            "Left",
+            "Right"
+          ]
+        },
+        {
+          "walls": [
+            "Down",
+            "Left"
+          ]
+        },
+        {
+          "walls": [
+            "Up"
+          ]
+        },
+        {
+          "walls": [
+            "Right"
+          ]
+        },
+        {
+          "walls": [
+            "Up",
+            "Left",
+            "Right"
+          ]
+        },
+        {
+          "walls": [
+            "Up",
+            "Down",
+            "Left"
+          ]
+        },
+        {
+          "walls": [
+            "Down",
+            "Right"
+          ]
+        },
+        {
+          "walls": [
+            "Down",
+            "Left"
+          ]
+        },
+        {
+          "walls": [
+            "Right"
+          ]
+        }
+      ],
+      [
+        {
+          "walls": [
+            "Down",
+            "Left"
+          ]
+        },
+        {
+          "walls": [
+            "Right"
+          ]
+        },
+        {
+          "walls": [
+            "Up",
+            "Down",
+            "Left"
+          ]
+        },
+        {
+          "walls": [
+            "Right"
+          ]
+        },
+        {
+          "walls": [
+            "Down",
+            "Left"
+          ]
+        },
+        {
+          "walls": []
+        },
+        {
+          "walls": [
+            "Up",
+            "Right"
+          ]
+        },
+        {
+          "walls": [
+            "Up",
+            "Left",
+            "Right"
+          ]
+        },
+        {
+          "walls": [
+            "Up",
+            "Left"
+          ]
+        },
+        {
+          "walls": [
+            "Right"
+          ]
+        }
+      ],
+      [
+        {
+          "walls": [
+            "Up",
+            "Left",
+            "Right"
+          ]
+        },
+        {
+          "walls": [
+            "Left"
+          ]
+        },
+        {
+          "walls": [
+            "Up",
+            "Right"
+          ]
+        },
+        {
+          "walls": [
+            "Left",
+            "Right"
+          ]
+        },
+        {
+          "walls": [
+            "Up",
+            "Down",
+            "Left"
+          ]
+        },
+        {
+          "walls": [
+            "Right"
+          ]
+        },
+        {
+          "walls": [
+            "Left",
+            "Right"
+          ]
+        },
+        {
+          "walls": [
+            "Left",
+            "Right"
+          ]
+        },
+        {
+          "walls": [
+            "Left",
+            "Right"
+          ]
+        },
+        {
+          "walls": [
+            "Down",
+            "Left",
+            "Right"
+          ]
+        }
+      ],
+      [
+        {
+          "walls": [
+            "Down",
+            "Left"
+          ]
+        },
+        {
+          "walls": [
+            "Down",
+            "Right"
+          ]
+        },
+        {
+          "walls": [
+            "Left",
+            "Right"
+          ]
+        },
+        {
+          "walls": [
+            "Left"
+          ]
+        },
+        {
+          "walls": [
+            "Up",
+            "Down",
+            "Right"
+          ]
+        },
+        {
+          "walls": [
+            "Left",
+            "Right"
+          ]
+        },
+        {
+          "walls": [
+            "Down",
+            "Left",
+            "Right"
+          ]
+        },
+        {
+          "walls": [
+            "Left",
+            "Right"
+          ]
+        },
+        {
+          "walls": [
+            "Left"
+          ]
+        },
+        {
+          "walls": [
+            "Up",
+            "Right"
+          ]
+        }
+      ],
+      [
+        {
+          "walls": [
+            "Up",
+            "Down",
+            "Left"
+          ]
+        },
+        {
+          "walls": [
+            "Up",
+            "Right"
+          ]
+        },
+        {
+          "walls": [
+            "Left"
+          ]
+        },
+        {
+          "walls": [
+            "Down",
+            "Right"
+          ]
+        },
+        {
+          "walls": [
+            "Up",
+            "Left",
+            "Right"
+          ]
+        },
+        {
+          "walls": [
+            "Left",
+            "Right"
+          ]
+        },
+        {
+          "walls": [
+            "Up",
+            "Left",
+            "Right"
+          ]
+        },
+        {
+          "walls": [
+            "Left",
+            "Right"
+          ]
+        },
+        {
+          "walls": [
+            "Down",
+            "Left",
+            "Right"
+          ]
+        },
+        {
+          "walls": [
+            "Left",
+            "Right"
+          ]
+        }
+      ],
+      [
+        {
+          "walls": [
+            "Up",
+            "Left"
+          ]
+        },
+        {
+          "walls": [
+            "Right"
+          ]
+        },
+        {
+          "walls": [
+            "Down",
+            "Left"
+          ]
+        },
+        {
+          "walls": [
+            "Up",
+            "Right"
+          ]
+        },
+        {
+          "walls": [
+            "Left"
+          ]
+        },
+        {
+          "walls": [
+            "Right"
+          ]
+        },
+        {
+          "walls": [
+            "Down",
+            "Left"
+          ]
+        },
+        {
+          "walls": [
+            "Right"
+          ]
+        },
+        {
+          "walls": [
+            "Up",
+            "Left",
+            "Right"
+          ]
+        },
+        {
+          "walls": [
+            "Left",
+            "Right"
+          ]
+        }
+      ],
+      [
+        {
+          "walls": [
+            "Left",
+            "Right"
+          ]
+        },
+        {
+          "walls": [
+            "Down",
+            "Left"
+          ]
+        },
+        {
+          "walls": [
+            "Up",
+            "Right"
+          ]
+        },
+        {
+          "walls": [
+            "Left",
+            "Right"
+          ]
+        },
+        {
+          "walls": [
+            "Down",
+            "Left",
+            "Right"
+          ]
+        },
+        {
+          "walls": [
+            "Left"
+          ]
+        },
+        {
+          "walls": [
+            "Up"
+          ]
+        },
+        {
+          "walls": [
+            "Down"
+          ]
+        },
+        {
+          "walls": []
+        },
+        {
+          "walls": [
+            "Down",
+            "Right"
+          ]
+        }
+      ],
+      [
+        {
+          "walls": [
+            "Down",
+            "Left",
+            "Right"
+          ]
+        },
+        {
+          "walls": [
+            "Up",
+            "Down",
+            "Left"
+          ]
+        },
+        {
+          "walls": [
+            "Down"
+          ]
+        },
+        {
+          "walls": [
+            "Down",
+            "Right"
+          ]
+        },
+        {
+          "walls": [
+            "Up",
+            "Down",
+            "Left"
+          ]
+        },
+        {
+          "walls": [
+            "Down",
+            "Right"
+          ]
+        },
+        {
+          "walls": [
+            "Down",
+            "Left"
+          ]
+        },
+        {
+          "walls": [
+            "Up",
+            "Down",
+            "Right"
+          ]
+        },
+        {
+          "walls": [
+            "Down",
+            "Left"
+          ]
+        },
+        {
+          "walls": [
+            "Up",
+            "Down",
+            "Right"
+          ]
+        }
+      ]
+    ],
+    "startingPoint": {
+      "x": 9,
+      "y": 0
+    },
+    "finishingPoint": {
+      "x": 5,
+      "y": 5
+    },
+    "shortestPath": [
+      {
+        "x": 9,
+        "y": 0
+      },
+      {
+        "x": 9,
+        "y": 1
+      },
+      {
+        "x": 9,
+        "y": 2
+      },
+      {
+        "x": 8,
+        "y": 3
+      },
+      {
+        "x": 8,
+        "y": 4
+      },
+      {
+        "x": 8,
+        "y": 5
+      },
+      {
+        "x": 9,
+        "y": 6
+      },
+      {
+        "x": 9,
+        "y": 7
+      },
+      {
+        "x": 8,
+        "y": 8
+      },
+      {
+        "x": 7,
+        "y": 8
+      },
+      {
+        "x": 6,
+        "y": 8
+      },
+      {
+        "x": 5,
+        "y": 7
+      },
+      {
+        "x": 5,
+        "y": 6
+      },
+      {
+        "x": 5,
+        "y": 5
+      }
+    ]
+  }
+}

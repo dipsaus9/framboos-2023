@@ -16,6 +16,18 @@ import { renderToPipeableStream } from 'react-dom/server'
 
 const ABORT_DELAY = 5_000
 
+async function initMocks() {
+  if (
+    process.env.NODE_ENV === 'development' &&
+    process.env.API_MOCKING === 'enabled'
+  ) {
+    const { startMockServer } = await import('./mocks/server')
+
+    startMockServer()
+  }
+}
+initMocks()
+
 export default function handleRequest(
   request: Request,
   responseStatusCode: number,

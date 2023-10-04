@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 
 export type WallDirection = 'Up' | 'Down' | 'Left' | 'Right'
 
@@ -10,6 +10,8 @@ export interface Maze {
   size: number
   cells: Array<Array<Cell>>
 }
+
+const CANVAS_BASE_SIZE = 800
 
 function drawLine(
   ctx: CanvasRenderingContext2D,
@@ -56,9 +58,13 @@ function drawCell(
   ctx.stroke()
 }
 
-function drawBase(ctx: CanvasRenderingContext2D, maze: Maze) {
+function drawBase(
+  ctx: CanvasRenderingContext2D,
+  maze: Maze,
+  fullScreen: boolean,
+) {
   /* Draw the tiles on the canvas*/
-  const size = maze.size * 4
+  const size = fullScreen ? CANVAS_BASE_SIZE / maze.size : (maze.size * 5) / 2
 
   for (let i = 0; i < maze.cells.length; i++) {
     const cells = maze.cells[i]
@@ -75,12 +81,13 @@ function clearCanvas(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) {
 
 interface MazeProps {
   maze: Maze
+  fullScreen?: boolean
 }
 
-export function MazeView({ maze }: MazeProps) {
+export function MazeView({ maze, fullScreen = true }: MazeProps) {
   const ref = useRef<HTMLCanvasElement>(null)
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const canvas = ref.current
 
     if (!canvas) {
@@ -90,13 +97,15 @@ export function MazeView({ maze }: MazeProps) {
     const ctx = canvas.getContext('2d')
 
     if (ctx) {
-      drawBase(ctx, maze)
+      drawBase(ctx, maze, fullScreen)
 
       return () => {
         clearCanvas(ctx, canvas)
       }
     }
-  }, [maze])
+  }, [fullScreen, maze])
 
-  return <canvas ref={ref} width={maze.size * 20} height={maze.size * 20} />
+  const canvasSize = fullScreen ? CANVAS_BASE_SIZE : (maze.size * 5) / 2
+
+  return <canvas ref={ref} width={canvasSize} height={canvasSize} />
 }

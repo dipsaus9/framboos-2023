@@ -1,6 +1,9 @@
 import type { MetaFunction } from '@remix-run/node'
+import { typedjson, useTypedLoaderData } from 'remix-typedjson'
 
-import { MazeView, type Maze } from '~/components/Maze'
+import { MazeView } from '~/components/Maze'
+import type { GameDTO } from '~/lib/api/@generated/framboos.schemas'
+import { getHost } from '~/lib/api/getHost'
 
 export const meta: MetaFunction = () => {
   return [
@@ -9,104 +12,27 @@ export const meta: MetaFunction = () => {
   ]
 }
 
-const maze: Maze = {
-  size: 25,
-  cells: [
-    [
-      {
-        walls: ['Up', 'Left', 'Right'],
-      },
-      {
-        walls: ['Up', 'Left'],
-      },
-      {
-        walls: ['Up', 'Down'],
-      },
-      {
-        walls: ['Up', 'Down', 'Right'],
-      },
-      {
-        walls: ['Up', 'Left', 'Right'],
-      },
-    ],
-    [
-      {
-        walls: ['Left', 'Right'],
-      },
-      {
-        walls: ['Down', 'Left'],
-      },
-      {
-        walls: ['Up', 'Right'],
-      },
-      {
-        walls: ['Up', 'Left'],
-      },
-      {
-        walls: ['Down', 'Right'],
-      },
-    ],
-    [
-      {
-        walls: ['Down', 'Left'],
-      },
-      {
-        walls: ['Up'],
-      },
-      {
-        walls: ['Down', 'Right'],
-      },
-      {
-        walls: ['Left'],
-      },
-      {
-        walls: ['Up', 'Right'],
-      },
-    ],
-    [
-      {
-        walls: ['Up', 'Left'],
-      },
-      {
-        walls: ['Down'],
-      },
-      {
-        walls: ['Up'],
-      },
-      {
-        walls: ['Down', 'Right'],
-      },
-      {
-        walls: ['Left', 'Right'],
-      },
-    ],
-    [
-      {
-        walls: ['Down', 'Left', 'Right'],
-      },
-      {
-        walls: ['Up', 'Down', 'Left'],
-      },
-      {
-        walls: ['Down', 'Right'],
-      },
-      {
-        walls: ['Up', 'Down', 'Left'],
-      },
-      {
-        walls: ['Down', 'Right'],
-      },
-    ],
-  ],
+const testMaze = 20
+
+export async function loader() {
+  const { maze } = (await fetch(
+    `${getHost()}/maze${testMaze}x${testMaze}.json`,
+  ).then((res) => res.json())) as GameDTO
+
+  return typedjson({ maze })
 }
 
 export default function Index() {
+  const { maze } = useTypedLoaderData<typeof loader>()
+
   return (
     <div style={{ fontFamily: 'system-ui, sans-serif', lineHeight: '1.8' }}>
       <h1 className="text-3xl font-bold text-blue-900 underline">
         Vrolijke Framboos
       </h1>
-      <MazeView maze={maze} />
+      <div className="flex justify-center">
+        <MazeView maze={maze} />
+      </div>
     </div>
   )
 }
