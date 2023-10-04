@@ -109,11 +109,12 @@ function clearCanvas(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) {
 interface MazeProps {
   maze: MazeDTO
   fullScreen?: boolean
-  player: PlayerDTO
+  players: PlayerDTO[]
 }
 
-export function MazeView({ maze, player, fullScreen = true }: MazeProps) {
+export function MazeView({ maze, players, fullScreen = true }: MazeProps) {
   const ref = useRef<HTMLCanvasElement>(null)
+  const size = fullScreen ? CANVAS_BASE_SIZE / maze.size : (maze.size * 5) / 2
 
   useEffect(() => {
     const canvas = ref.current
@@ -122,20 +123,35 @@ export function MazeView({ maze, player, fullScreen = true }: MazeProps) {
       return
     }
 
-    const size = fullScreen ? CANVAS_BASE_SIZE / maze.size : (maze.size * 5) / 2
-
     const ctx = canvas.getContext('2d')
 
     if (ctx) {
       drawBase(ctx, size, maze)
-      drawPlayer(ctx, size, player)
       drawEndpoint(ctx, size, maze)
 
       return () => {
         clearCanvas(ctx, canvas)
       }
     }
-  }, [fullScreen, maze, player])
+  }, [maze, size])
+
+  useEffect(() => {
+    const canvas = ref.current
+
+    if (!canvas) {
+      return
+    }
+
+    const ctx = canvas.getContext('2d')
+
+    if (ctx) {
+      players.forEach((player) => drawPlayer(ctx, size, player))
+
+      return () => {
+        clearCanvas(ctx, canvas)
+      }
+    }
+  }, [maze, size, players])
 
   const canvasSize = fullScreen ? CANVAS_BASE_SIZE : (maze.size * 5) / 2
 

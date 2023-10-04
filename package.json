@@ -12,7 +12,7 @@
     "format:check": "prettier --check \"**/*.{js,ts,tsx,css,scss,md}\"",
     "format:fix": "prettier --write \"**/*.{js,ts,tsx,css,scss,md}\"",
     "generate:api": "orval --config ./orval.config.cjs",
-    "typecheck": "tsc"
+    "typecheck": "tsc -b ."
   },
   "dependencies": {
     "@faker-js/faker": "^8.1.0",

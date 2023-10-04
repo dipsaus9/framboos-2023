@@ -33,5 +33,5 @@
       "~/*": ["./app/*"]
     }
   },
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "./app/lib/api/@generated"]
 }

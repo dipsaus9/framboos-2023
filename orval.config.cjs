@@ -1,6 +1,14 @@
+require('dotenv').config({
+  path: '.env',
+})
+
+function getHost() {
+  return process.env.PUBLIC_HOST
+}
+
 module.exports = {
   framboos: {
-    input: './open-api.json',
+    input: `${getHost()}/v3/api-docs`,
     output: {
       mode: 'split',
       target: './app/lib/api/@generated/framboos.ts',

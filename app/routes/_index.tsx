@@ -23,11 +23,11 @@ export async function loader({ request }: LoaderFunctionArgs) {
     playerId: String(testMaze),
   })
 
-  return typedjson({ maze, currentPlayer: players[0] })
+  return typedjson({ maze, players })
 }
 
 export default function Index() {
-  const { maze, currentPlayer } = useTypedLoaderData<typeof loader>()
+  const { maze, players } = useTypedLoaderData<typeof loader>()
 
   return (
     <div style={{ fontFamily: 'system-ui, sans-serif', lineHeight: '1.8' }}>
@@ -35,7 +35,7 @@ export default function Index() {
         Vrolijke Framboos
       </h1>
       <div className="flex justify-center">
-        <MazeView maze={maze} player={currentPlayer} />
+        <MazeView maze={maze} players={players} />
       </div>
     </div>
   )

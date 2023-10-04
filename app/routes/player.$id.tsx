@@ -1,11 +1,11 @@
-import { useEffect, useRef } from 'react'
-
 import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node'
 import { useRevalidator } from '@remix-run/react'
 import { typedjson, useTypedLoaderData } from 'remix-typedjson'
 
 import { MazeView } from '~/components/Maze'
 import { getGameStatusForPlayer } from '~/lib/api/@generated/framboos'
+
+import { usePolling } from '../hooks/usePolling'
 
 export const meta: MetaFunction = () => {
   return [
@@ -44,47 +44,24 @@ export async function loader({ params }: LoaderFunctionArgs) {
     })
   })
 
-  return typedjson({ maze, currentPlayer: players[0] })
+  return typedjson({ maze, players, playerId })
 }
 
 export default function PlayerView() {
-  const { maze, currentPlayer } = useTypedLoaderData<typeof loader>()
+  const { maze, players, playerId } = useTypedLoaderData<typeof loader>()
 
   const revalidator = useRevalidator()
 
-  // run when you need to update
-  const timerIdRef = useRef<NodeJS.Timeout | null>(null)
-
-  useEffect(() => {
-    const pollingCallback = () => {
-      // Your polling logic here
-      if (revalidator.state === 'idle') {
-        revalidator.revalidate()
-      }
+  usePolling(() => {
+    if (revalidator.state === 'idle') {
+      revalidator.revalidate()
     }
+  }, POLLING_INTERVAL)
 
-    const startPolling = () => {
-      // pollingCallback(); // To immediately start fetching data
-      // Polling every 30 seconds
-
-      timerIdRef.current = setInterval(pollingCallback, POLLING_INTERVAL)
-    }
-
-    const stopPolling = () => {
-      if (timerIdRef.current) {
-        clearInterval(timerIdRef.current)
-      }
-    }
-
-    startPolling()
-
-    return () => {
-      stopPolling()
-    }
-  }, [revalidator])
+  const currentPlayer = players.find((player) => player.playerId === playerId)!
 
   return (
-    <div style={{ fontFamily: 'system-ui, sans-serif', lineHeight: '1.8' }}>
+    <div>
       <div className="flex flex-col items-center">
         <div className="my-10 flex flex-col items-center justify-center">
           <h1 className=" mb-0 text-3xl font-bold text-blue-900">
@@ -92,7 +69,7 @@ export default function PlayerView() {
           </h1>
           <p>Total moves: {currentPlayer.nrOfMoves}</p>
         </div>
-        <MazeView maze={maze} player={currentPlayer} />
+        <MazeView maze={maze} players={players} />
       </div>
     </div>
   )
