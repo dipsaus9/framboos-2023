@@ -11,8 +11,8 @@ export const getGameByPlayerId = rest.get(
       name: faker.person.firstName(),
       emoji: '🍆',
       position: {
-        x: 10,
-        y: 5,
+        x: faker.number.float({ min: 0, max: 10, precision: 1 }),
+        y: faker.number.float({ min: 0, max: 10, precision: 1 }),
       },
       nrOfMoves: 10,
       state: 'Exploring',

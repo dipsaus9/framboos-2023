@@ -1,4 +1,7 @@
+import { useEffect, useRef } from 'react'
+
 import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node'
+import { useRevalidator } from '@remix-run/react'
 import { typedjson, useTypedLoaderData } from 'remix-typedjson'
 
 import { MazeView } from '~/components/Maze'
@@ -15,6 +18,7 @@ export const meta: MetaFunction = () => {
   ]
 }
 
+const POLLING_INTERVAL = 500 // half a second
 const testMaze = 20
 
 export async function loader({ params }: LoaderFunctionArgs) {
@@ -62,6 +66,40 @@ export async function loader({ params }: LoaderFunctionArgs) {
 
 export default function PlayerView() {
   const { maze, currentPlayer } = useTypedLoaderData<typeof loader>()
+
+  const revalidator = useRevalidator()
+
+  // run when you need to update
+  const timerIdRef = useRef<NodeJS.Timeout | null>(null)
+
+  useEffect(() => {
+    const pollingCallback = () => {
+      // Your polling logic here
+      console.log('Polling...')
+      if (revalidator.state === 'idle') {
+        revalidator.revalidate()
+      }
+    }
+
+    const startPolling = () => {
+      // pollingCallback(); // To immediately start fetching data
+      // Polling every 30 seconds
+
+      timerIdRef.current = setInterval(pollingCallback, POLLING_INTERVAL)
+    }
+
+    const stopPolling = () => {
+      if (timerIdRef.current) {
+        clearInterval(timerIdRef.current)
+      }
+    }
+
+    startPolling()
+
+    return () => {
+      stopPolling()
+    }
+  }, [revalidator])
 
   return (
     <div style={{ fontFamily: 'system-ui, sans-serif', lineHeight: '1.8' }}>
