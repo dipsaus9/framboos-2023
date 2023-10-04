@@ -47,10 +47,22 @@ export const authSession = createCookieSessionStorage<
     httpOnly: true,
     path: '/',
     sameSite: 'lax',
-    secure: true,
+    secure: false,
     maxAge: 86_400, // one day
     secrets: [process.env.SESSION_COOKIE_SECRET!],
     decode: decrypt,
     encode: encrypt,
   },
 })
+
+export async function isLoggedIn(request: Request) {
+  const session = await authSession.getSession(request.headers.get('Cookie'))
+
+  const password = session.get('password')
+
+  if (!password || password !== process.env.ADMIN_PASSWORD) {
+    return false
+  }
+
+  return true
+}

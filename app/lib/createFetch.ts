@@ -1,33 +1,4 @@
-import { parseISO } from 'date-fns'
-
 import { FetchError } from './FetchError'
-
-function isIsoDateString(value: any): boolean {
-  return (
-    value &&
-    typeof value === 'string' &&
-    new Date(value) instanceof Date &&
-    !isNaN(new Date(value).getTime())
-  )
-}
-
-function handleDates(body: any) {
-  if (body === null || body === undefined || typeof body !== 'object') {
-    return body
-  }
-
-  for (const key of Object.keys(body)) {
-    const value = body[key]
-
-    if (isIsoDateString(value)) {
-      body[key] = parseISO(value)
-    } else if (typeof value === 'object') {
-      handleDates(value)
-    }
-  }
-
-  return body
-}
 
 export enum FetchMethods {
   GET = 'GET',
@@ -88,7 +59,7 @@ const createFetch = (
 
       const response = await fetchResponse.json()
 
-      return handleDates(response) as T
+      return response as T
     } catch (error) {
       if (onError) {
         onError(error)

@@ -15,7 +15,6 @@ export const getGameByPlayerId = rest.get(
         y: faker.number.float({ min: 0, max: 10, precision: 1 }),
       },
       nrOfMoves: 10,
-      state: 'Exploring',
     }
 
     return res(ctx.delay(300), ctx.status(200, 'Mocked status'), ctx.json(data))

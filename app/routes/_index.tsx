@@ -1,12 +1,9 @@
-import type { MetaFunction } from '@remix-run/node'
-import { typedjson, useTypedLoaderData } from 'remix-typedjson'
+import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node'
+import { redirect, typedjson, useTypedLoaderData } from 'remix-typedjson'
 
 import { MazeView } from '~/components/Maze'
-import {
-  getCurrentGameState,
-  getPracticeGameSummary,
-} from '~/lib/api/@generated/framboos'
-import type { PlayerDTO } from '~/lib/api/@generated/framboos.schemas'
+import { getGameStatusForPlayer } from '~/lib/api/@generated/framboos'
+import { isLoggedIn } from '~/services/auth.server'
 
 export const meta: MetaFunction = () => {
   return [
@@ -17,12 +14,16 @@ export const meta: MetaFunction = () => {
 
 const testMaze = 20
 
-export async function loader() {
-  const { maze } = await getPracticeGameSummary(String(testMaze))
+export async function loader({ request }: LoaderFunctionArgs) {
+  if (!(await isLoggedIn(request))) {
+    return redirect('/player')
+  }
 
-  const currentPlayer = (await getCurrentGameState('test')) as PlayerDTO
+  const { maze, players } = await getGameStatusForPlayer({
+    playerId: String(testMaze),
+  })
 
-  return typedjson({ maze, currentPlayer })
+  return typedjson({ maze, currentPlayer: players[0] })
 }
 
 export default function Index() {
