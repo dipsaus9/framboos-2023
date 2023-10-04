@@ -1,3 +1,6 @@
-import { getOpenAPIDefinitionMSW } from '~/lib/api/@generated/framboos.msw'
+// import { getOpenAPIDefinitionMSW } from '~/lib/api/@generated/framboos.msw'
 
-export const handlers = [...getOpenAPIDefinitionMSW()]
+import { getAdminMazeByPlayerId } from './getAdminMazeByPlayerId'
+import { getGameByPlayerId } from './getGameByPlayerId'
+
+export const handlers = [getAdminMazeByPlayerId, getGameByPlayerId]

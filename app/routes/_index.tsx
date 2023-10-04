@@ -2,8 +2,11 @@ import type { MetaFunction } from '@remix-run/node'
 import { typedjson, useTypedLoaderData } from 'remix-typedjson'
 
 import { MazeView } from '~/components/Maze'
-import type { GameDTO } from '~/lib/api/@generated/framboos.schemas'
-import { getHost } from '~/lib/api/getHost'
+import {
+  getCurrentGameState,
+  getPracticeGameSummary,
+} from '~/lib/api/@generated/framboos'
+import type { PlayerDTO } from '~/lib/api/@generated/framboos.schemas'
 
 export const meta: MetaFunction = () => {
   return [
@@ -15,15 +18,15 @@ export const meta: MetaFunction = () => {
 const testMaze = 20
 
 export async function loader() {
-  const { maze } = (await fetch(
-    `${getHost()}/maze${testMaze}x${testMaze}.json`,
-  ).then((res) => res.json())) as GameDTO
+  const { maze } = await getPracticeGameSummary(String(testMaze))
 
-  return typedjson({ maze })
+  const currentPlayer = (await getCurrentGameState('test')) as PlayerDTO
+
+  return typedjson({ maze, currentPlayer })
 }
 
 export default function Index() {
-  const { maze } = useTypedLoaderData<typeof loader>()
+  const { maze, currentPlayer } = useTypedLoaderData<typeof loader>()
 
   return (
     <div style={{ fontFamily: 'system-ui, sans-serif', lineHeight: '1.8' }}>
@@ -31,7 +34,7 @@ export default function Index() {
         Vrolijke Framboos
       </h1>
       <div className="flex justify-center">
-        <MazeView maze={maze} />
+        <MazeView maze={maze} player={currentPlayer} />
       </div>
     </div>
   )

@@ -1,15 +1,10 @@
 import { useEffect, useRef } from 'react'
 
-export type WallDirection = 'Up' | 'Down' | 'Left' | 'Right'
-
-export interface Cell {
-  walls: Array<WallDirection>
-}
-
-export interface Maze {
-  size: number
-  cells: Array<Array<Cell>>
-}
+import type {
+  MazeCellDTOWallsItem,
+  MazeDTO,
+  PlayerDTO,
+} from '~/lib/api/@generated/framboos.schemas'
 
 const CANVAS_BASE_SIZE = 800
 
@@ -22,7 +17,12 @@ function drawLine(
 ) {
   /*Draw a line from the starting X and Y positions to  the ending X and Y positions*/
   ctx.moveTo(sX, sY)
+
+  ctx.lineCap = 'round'
+  ctx.strokeStyle = 'black'
+  ctx.lineWidth = 1
   ctx.lineTo(eX, eY)
+  ctx.stroke()
 }
 
 function drawCell(
@@ -30,7 +30,7 @@ function drawCell(
   size: number,
   x: number,
   y: number,
-  walls: Array<WallDirection>,
+  walls: Array<MazeCellDTOWallsItem>,
 ) {
   /* Draw cell based on wall properties */
   let left = walls.includes('Left')
@@ -58,13 +58,8 @@ function drawCell(
   ctx.stroke()
 }
 
-function drawBase(
-  ctx: CanvasRenderingContext2D,
-  maze: Maze,
-  fullScreen: boolean,
-) {
+function drawBase(ctx: CanvasRenderingContext2D, size: number, maze: MazeDTO) {
   /* Draw the tiles on the canvas*/
-  const size = fullScreen ? CANVAS_BASE_SIZE / maze.size : (maze.size * 5) / 2
 
   for (let i = 0; i < maze.cells.length; i++) {
     const cells = maze.cells[i]
@@ -75,16 +70,49 @@ function drawBase(
   }
 }
 
+function drawPlayer(
+  ctx: CanvasRenderingContext2D,
+  size: number,
+  player: PlayerDTO,
+) {
+  ctx.fillText(
+    player.emoji,
+    player.position.x * size + size / 2,
+    player.position.y * size + size / 2,
+  )
+
+  ctx.font = `${size / 2}px serif`
+  ctx.textAlign = 'center'
+  ctx.textBaseline = 'middle'
+}
+
+function drawEndpoint(
+  ctx: CanvasRenderingContext2D,
+  size: number,
+  maze: MazeDTO,
+) {
+  ctx.fillText(
+    '🍇',
+    maze.finishingPoint.x * size + size / 2,
+    maze.finishingPoint.y * size + size / 2,
+  )
+
+  ctx.font = `${size / 2}px serif`
+  ctx.textAlign = 'center'
+  ctx.textBaseline = 'middle'
+}
+
 function clearCanvas(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) {
   ctx.clearRect(0, 0, canvas.width, canvas.height)
 }
 
 interface MazeProps {
-  maze: Maze
+  maze: MazeDTO
   fullScreen?: boolean
+  player: PlayerDTO
 }
 
-export function MazeView({ maze, fullScreen = true }: MazeProps) {
+export function MazeView({ maze, player, fullScreen = true }: MazeProps) {
   const ref = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
@@ -94,16 +122,20 @@ export function MazeView({ maze, fullScreen = true }: MazeProps) {
       return
     }
 
+    const size = fullScreen ? CANVAS_BASE_SIZE / maze.size : (maze.size * 5) / 2
+
     const ctx = canvas.getContext('2d')
 
     if (ctx) {
-      drawBase(ctx, maze, fullScreen)
+      drawBase(ctx, size, maze)
+      drawPlayer(ctx, size, player)
+      drawEndpoint(ctx, size, maze)
 
       return () => {
         clearCanvas(ctx, canvas)
       }
     }
-  }, [fullScreen, maze])
+  }, [fullScreen, maze, player])
 
   const canvasSize = fullScreen ? CANVAS_BASE_SIZE : (maze.size * 5) / 2
 
