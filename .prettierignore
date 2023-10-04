@@ -1,0 +1,11 @@
+/node_modules
+/.github/workflows
+/charts
+**/*/build
+/**/*/dist
+**/*/server-build
+/**/*.css.ts
+/**/*/*.css
+/**/*/@generated
+/**/*/node_modules
+pnpm-lock.yaml
