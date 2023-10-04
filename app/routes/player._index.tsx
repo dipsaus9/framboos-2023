@@ -3,7 +3,7 @@ import type { MetaFunction } from '@remix-run/node'
 import { Link } from '@remix-run/react'
 import { typedjson, useTypedLoaderData } from 'remix-typedjson'
 
-import { getPlayers } from '~/lib/api/@generated/framboos'
+import { getPlayers, getTournamentState } from '~/lib/api/@generated/framboos'
 
 export const meta: MetaFunction = () => {
   return [
@@ -13,9 +13,11 @@ export const meta: MetaFunction = () => {
 }
 
 export async function loader() {
-  const isGameInTournamentMode = false
+  const tournament = await getTournamentState().catch(() => null)
 
-  if (isGameInTournamentMode) {
+  const isInTournamentMode = !!tournament
+
+  if (isInTournamentMode) {
     throw new Response(null, {
       status: 404,
       statusText: 'Game is in tournament mode',
