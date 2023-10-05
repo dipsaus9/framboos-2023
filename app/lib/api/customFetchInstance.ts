@@ -20,9 +20,9 @@ export async function customFetchInstance<T>({
   headers,
 }: RequestConfig): Promise<T> {
   const fetcher = createFetch({
-    ...headers,
     accept: 'application/json',
     Authorization: `Bearer ${process.env.ADMIN_API_KEY}`,
+    ...headers,
   })
 
   const searchParams = params ? `?${new URLSearchParams(params)}` : ''

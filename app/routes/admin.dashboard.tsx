@@ -1,9 +1,13 @@
+import { faker } from '@faker-js/faker'
 import { Form, Link, useFetcher } from '@remix-run/react'
 import { typedjson, useTypedLoaderData } from 'remix-typedjson'
 
+import { Bot } from '~/components/Bot'
 import { getPlayers, getTournamentState } from '~/lib/api/@generated/framboos'
 
 export async function loader() {
+  const botName = process.env.BOT_NAME ?? faker.person.firstName()
+
   const tournamentPromise = getTournamentState().catch(() => null)
   const playersPromise = getPlayers()
 
@@ -12,11 +16,22 @@ export async function loader() {
     playersPromise,
   ])
 
-  return typedjson({ tournament, players })
+  const isBotRegistered = players.some((player) => player.name === botName)
+
+  return typedjson({
+    tournament,
+    players,
+    bot: isBotRegistered
+      ? players.find((player) => player.name === botName)!
+      : null,
+    botName,
+    isBotRegistered,
+  })
 }
 
 export default function Dashboard() {
-  const { tournament, players } = useTypedLoaderData<typeof loader>()
+  const { tournament, players, bot, isBotRegistered, botName } =
+    useTypedLoaderData<typeof loader>()
 
   const { submit } = useFetcher()
 
@@ -75,7 +90,6 @@ export default function Dashboard() {
                   <>
                     <p>Game ID: {tournament.game.gameId}</p>
                     <p>Phase: {tournament.game.phase}</p>
-                    {/* @ts-expect-error */}
                     <p>Round: {tournament.round}</p>
                     <p>
                       Total amount of players: {tournament.game.players.length}
@@ -168,6 +182,7 @@ export default function Dashboard() {
             )}
           </Form>
         </div>
+        <Bot bot={bot} isRegistered={isBotRegistered} botName={botName} />
       </div>
     </div>
   )

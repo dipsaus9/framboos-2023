@@ -44,8 +44,38 @@ export default function Index() {
         <h1 className="mb-4 text-3xl font-bold text-blue-900">
           {isInTournamentMode ? 'Vrolijke framboos' : 'Game on!'}
         </h1>
-        {isInTournamentMode && tournament ? (
-          <TournamentView tournament={tournament} />
+        {isInTournamentMode ? (
+          <>
+            <table className="min-w-full text-left text-sm font-light">
+              <thead className="border-b border-b-black font-medium dark:border-neutral-500">
+                <tr>
+                  <th className="px-6 py-4">Emoji</th>
+                  <th className="max-w-md px-6 py-4">Name</th>
+                  <th className="px-6 py-4">Nr of moves</th>
+                </tr>
+              </thead>
+              <tbody>
+                {tournament?.game?.players.map((player) => (
+                  <tr
+                    key={player.playerId}
+                    className="bg-neutral-400 bg-opacity-25 odd:bg-neutral-600 odd:bg-opacity-25"
+                  >
+                    <td className="whitespace-nowrap px-6 py-4">
+                      {player.emoji}
+                    </td>
+
+                    <td className="max-w-md truncate whitespace-nowrap px-6 py-4">
+                      {player.name}
+                    </td>
+                    <td className="whitespace-nowrap px-6 py-4 hover:underline">
+                      {player.nrOfMoves}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <TournamentView tournament={tournament} />
+          </>
         ) : (
           <ExplorationView players={players} />
         )}

@@ -3,7 +3,7 @@ import { rest } from 'msw'
 
 import type { Player } from '~/lib/api/@generated/framboos.schemas'
 
-export const getAllPlayers = rest.get('*/admin/players', (req, res, ctx) => {
+export const getPlayers = rest.get('*/admin/players', (req, res, ctx) => {
   const data: Player[] = [
     {
       emoji: '🍆',

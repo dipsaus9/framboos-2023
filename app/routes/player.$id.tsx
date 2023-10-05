@@ -7,6 +7,7 @@ import {
   getGameForPlayer,
   getTournamentState,
 } from '~/lib/api/@generated/framboos'
+import { isLoggedIn } from '~/services/auth.server'
 
 import { usePolling } from '../hooks/usePolling'
 import { POLLING_INTERVAL } from '../lib/POLLING_INTERVAL'
@@ -18,12 +19,12 @@ export const meta: MetaFunction = () => {
   ]
 }
 
-export async function loader({ params }: LoaderFunctionArgs) {
+export async function loader({ params, request }: LoaderFunctionArgs) {
   const tournament = await getTournamentState().catch(() => null)
 
   const isInTournamentMode = !!tournament
 
-  if (isInTournamentMode) {
+  if (isInTournamentMode && !isLoggedIn(request)) {
     throw new Response(null, {
       status: 404,
       statusText: 'Game is in tournament mode',
@@ -39,20 +40,32 @@ export async function loader({ params }: LoaderFunctionArgs) {
     })
   }
 
-  const { maze, players } = await getGameForPlayer({
+  const data = await getGameForPlayer({
     playerId,
   }).catch(() => {
-    return {
-      maze: null,
-      players: [],
-    }
+    return null
   })
 
-  return typedjson({ maze, players, playerId })
+  if (!data) {
+    return typedjson({
+      maze: null,
+      players: [],
+      playerId,
+      gameId: null,
+    })
+  }
+
+  return typedjson({
+    maze: data.maze,
+    players: data.players,
+    playerId,
+    gameId: data.gameId,
+  })
 }
 
 export default function PlayerView() {
-  const { maze, players, playerId } = useTypedLoaderData<typeof loader>()
+  const { maze, players, playerId, gameId } =
+    useTypedLoaderData<typeof loader>()
 
   const revalidator = useRevalidator()
 
@@ -73,6 +86,8 @@ export default function PlayerView() {
               <h1 className="mb-4 text-3xl font-bold text-blue-900">
                 Player: {currentPlayer.name}
               </h1>
+              <p className="mb-4">Player ID: {currentPlayer.playerId}</p>
+              <p className="mb-4">Game ID: {gameId}</p>
               <p className="mb-4">Total moves: {currentPlayer.nrOfMoves}</p>
               <MazeView maze={maze} players={players} />
             </>

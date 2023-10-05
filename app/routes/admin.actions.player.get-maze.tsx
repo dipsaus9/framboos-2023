@@ -1,10 +1,10 @@
-import type { LoaderFunctionArgs } from '@remix-run/node'
+import type { ActionFunctionArgs } from '@remix-run/node'
 import { typedjson } from 'remix-typedjson'
 
 import { getGameForPlayer } from '~/lib/api/@generated/framboos'
 import { isLoggedIn } from '~/services/auth.server'
 
-export async function loader({ request }: LoaderFunctionArgs) {
+export async function action({ request }: ActionFunctionArgs) {
   if (!(await isLoggedIn(request))) {
     return typedjson(
       {

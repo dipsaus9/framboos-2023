@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useState } from 'react'
 
+import { useRevalidator } from '@remix-run/react'
 import { useTypedFetcher } from 'remix-typedjson'
 
 import { usePolling } from '~/hooks/usePolling'
 import type { Player } from '~/lib/api/@generated/framboos.schemas'
 import { POLLING_INTERVAL } from '~/lib/POLLING_INTERVAL'
-import type { loader } from '~/routes/loader.player.get-maze'
+import type { action } from '~/routes/admin.actions.player.get-maze'
 
 import { MazeView } from './Maze'
 
@@ -15,6 +16,7 @@ interface ExplorationViewProps {
 
 export function ExplorationView({ players }: ExplorationViewProps) {
   const [activePlayerIndex, setActivePlayerIndex] = useState(0)
+  const revalidator = useRevalidator()
 
   // Switch to the next player every 10 seconds
   useEffect(() => {
@@ -27,18 +29,29 @@ export function ExplorationView({ players }: ExplorationViewProps) {
 
   const activePlayer = players[activePlayerIndex]
 
-  const { submit, data } = useTypedFetcher<typeof loader>()
+  const { submit, data } = useTypedFetcher<typeof action>()
 
   const getMaze = useCallback(() => {
-    const formData = new FormData()
+    if (activePlayer?.id) {
+      const formData = new FormData()
 
-    formData.append('playerId', activePlayer.id)
+      formData.append('playerId', activePlayer.id)
 
-    submit(formData, {
-      action: '/loader/player/get-maze',
-      method: 'GET',
-    })
-  }, [activePlayer.id, submit])
+      submit(
+        {
+          playerId: activePlayer.id,
+        },
+        {
+          action: '/admin/actions/player/get-maze',
+          method: 'POST',
+        },
+      )
+    } else {
+      if (revalidator.state === 'idle') {
+        revalidator.revalidate()
+      }
+    }
+  }, [activePlayer?.id, revalidator, submit])
 
   usePolling(getMaze, POLLING_INTERVAL)
 
@@ -46,5 +59,37 @@ export function ExplorationView({ players }: ExplorationViewProps) {
     return <p>Loading...</p>
   }
 
-  return <MazeView maze={data.maze} players={data.players} />
+  return (
+    <>
+      <table className="min-w-full text-left text-sm font-light">
+        <thead className="border-b border-b-black font-medium dark:border-neutral-500">
+          <tr>
+            <th className="px-6 py-4">Emoji</th>
+            <th className="max-w-md px-6 py-4">Name</th>
+            <th className="px-6 py-4">Nr of moves</th>
+          </tr>
+        </thead>
+        <tbody>
+          {players.map((player) => (
+            <tr
+              key={player.id}
+              className={`bg-neutral-400 bg-opacity-25 odd:bg-neutral-600 odd:bg-opacity-25 ${
+                player.id === activePlayer.id ? 'font-bold' : ''
+              }`}
+            >
+              <td className="whitespace-nowrap px-6 py-4">{player.emoji}</td>
+
+              <td className="max-w-md truncate whitespace-nowrap px-6 py-4">
+                {player.name}
+              </td>
+              <td className="whitespace-nowrap px-6 py-4 hover:underline">
+                {player.id}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <MazeView maze={data.maze} players={data.players} />
+    </>
+  )
 }
