@@ -52,6 +52,7 @@ export default function Index() {
                   <th className="px-6 py-4">Emoji</th>
                   <th className="max-w-md px-6 py-4">Name</th>
                   <th className="px-6 py-4">Nr of moves</th>
+                  <th className="px-6 py-4">Score</th>
                 </tr>
               </thead>
               <tbody>
@@ -69,6 +70,9 @@ export default function Index() {
                     </td>
                     <td className="whitespace-nowrap px-6 py-4 hover:underline">
                       {player.nrOfMoves}
+                    </td>
+                    <td className="whitespace-nowrap px-6 py-4 hover:underline">
+                      0
                     </td>
                   </tr>
                 ))}
