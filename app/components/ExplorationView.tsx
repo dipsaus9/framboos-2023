@@ -22,7 +22,7 @@ export function ExplorationView({ players }: ExplorationViewProps) {
   useEffect(() => {
     const interval = setInterval(() => {
       setActivePlayerIndex((index) => (index + 1) % players.length)
-    }, 5000)
+    }, 7500)
 
     return () => clearInterval(interval)
   }, [players.length])

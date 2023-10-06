@@ -1,4 +1,7 @@
+import { useMemo } from 'react'
+
 import { useRevalidator } from '@remix-run/react'
+import Confetti from 'react-confetti'
 
 import { usePolling } from '~/hooks/usePolling'
 import {
@@ -15,6 +18,19 @@ interface TournamentViewProps {
 
 export function TournamentView({ tournament }: TournamentViewProps) {
   const revalidator = useRevalidator()
+  const { width, height } = useMemo(() => {
+    if (typeof window === 'undefined') {
+      return {
+        width: 1920,
+        height: 1080,
+      }
+    }
+
+    return {
+      width: window.innerWidth,
+      height: window.innerHeight,
+    }
+  }, [])
 
   usePolling(() => {
     if (revalidator.state === 'idle') {
@@ -27,7 +43,41 @@ export function TournamentView({ tournament }: TournamentViewProps) {
   }
 
   if (tournament?.tournamentState === TournamentDTOTournamentState.Finished) {
-    return <p>Confetti + Winnaar</p>
+    return (
+      <>
+        <h1 className="text-5xl font-semibold leading-7 text-gray-900">
+          Scoreboard
+        </h1>
+        <table className="text-left text-sm font-light">
+          <thead className="border-b border-b-black font-medium dark:border-neutral-500">
+            <tr>
+              <th className="max-w-md p-4">Emoji</th>
+              <th className="max-w-md p-4">Name</th>
+              <th className="p-4">Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            {tournament?.ranking.map((rank) => (
+              <tr
+                key={rank.playerId}
+                className="bg-neutral-400 bg-opacity-25 odd:bg-neutral-600 odd:bg-opacity-25"
+              >
+                <td className="whitespace-nowrap p-4">{rank.playerEmoji}</td>
+
+                <td className="truncate whitespace-nowrap px-2">
+                  {rank.playerName}
+                </td>
+
+                <td className="whitespace-nowrap p-4 hover:underline">
+                  {rank.score}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <Confetti width={width} height={height} />
+      </>
+    )
   }
 
   if (!tournament) {
