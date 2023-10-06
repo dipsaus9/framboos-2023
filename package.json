@@ -6,7 +6,7 @@
   "scripts": {
     "build": "pnpm generate:api && remix build",
     "dev": "pnpm generate:api && remix dev --manual",
-    "start": "remix-serve ./build/index.js",
+    "start": "dotenv -e .env remix-serve ./build/index.js",
     "lint": "eslint ./app",
     "lint:fix": "eslint ./app --fix",
     "format:check": "prettier --check \"**/*.{js,ts,tsx,css,scss,md}\"",
@@ -22,6 +22,8 @@
     "@remix-run/serve": "^2.0.1",
     "@tailwindcss/forms": "^0.5.6",
     "date-fns": "^2.30.0",
+    "dotenv": "^16.3.1",
+    "dotenv-cli": "^7.3.0",
     "isbot": "^3.6.8",
     "msw": "^1.3.2",
     "postcss": "^8.4.31",

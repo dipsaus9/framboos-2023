@@ -36,7 +36,3 @@ export async function action({ request }: ActionFunctionArgs) {
     statusText: 'OK',
   })
 }
-
-export default function View() {
-  return <div>Oops... You should not see this.</div>
-}

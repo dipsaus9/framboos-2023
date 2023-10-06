@@ -15,29 +15,17 @@ export async function loader({ request }: LoaderFunctionArgs) {
     )
   }
 
-  let jsonValue: Record<string, any> = {}
+  const playerId = new URL(request.url).searchParams.get('playerId')
 
-  const contentType = request.headers.get('content-type')
-
-  if (contentType && contentType.includes('application/json')) {
-    jsonValue = await request.json()
-  } else {
-    try {
-      const formData = await request.formData()
-
-      formData.forEach((value, key) => (jsonValue[key] = value))
-    } catch {
-      return typedjson(
-        {
-          maze: null,
-          players: [],
-        },
-        400,
-      )
-    }
+  if (!playerId) {
+    return typedjson(
+      {
+        maze: null,
+        players: [],
+      },
+      400,
+    )
   }
-
-  const { playerId } = jsonValue
 
   const { maze, players } = await getGameForPlayer({
     playerId,

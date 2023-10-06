@@ -41,14 +41,16 @@ export default function Index() {
   return (
     <div className="flex flex-col items-center">
       <div className="my-10 flex flex-col items-center justify-center">
-        <h1 className="mb-4 text-3xl font-bold text-blue-900">
-          {isInTournamentMode ? 'Vrolijke framboos' : 'Game on!'}
+        <h1 className="text-5xl font-semibold leading-7 text-gray-900">
+          {isInTournamentMode ? 'Vrolijke framboos' : 'This is practice mode!'}
         </h1>
-        {isInTournamentMode && tournament ? (
-          <TournamentView tournament={tournament} />
-        ) : (
-          <ExplorationView players={players} />
-        )}
+        <div className="my-10">
+          {isInTournamentMode ? (
+            <TournamentView tournament={tournament} />
+          ) : (
+            <ExplorationView players={players} />
+          )}
+        </div>
       </div>
     </div>
   )

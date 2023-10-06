@@ -6,8 +6,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:8080/raspberry-runaround",
-      "description": "Generated server url"
+      "url": "/raspberry-runaround"
     }
   ],
   "paths": {
@@ -531,11 +530,7 @@
         "properties": {
           "tournamentState": {
             "type": "string",
-            "enum": [
-              "Waiting",
-              "Playing",
-              "Finished"
-            ]
+            "enum": ["Waiting", "Playing", "Finished"]
           },
           "round": {
             "type": "integer",
@@ -565,13 +560,13 @@
         "required": ["status"],
         "type": "object",
         "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
           "status": {
             "type": "string",
             "enum": ["Registered", "Invalid"]
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid"
           }
         }
       },
@@ -616,11 +611,7 @@
           },
           "gamePhase": {
             "type": "string",
-            "enum": [
-              "Exploration",
-              "SpeedRunning",
-              "Finished"
-            ]
+            "enum": ["Exploration", "SpeedRunning", "Finished"]
           },
           "position": {
             "$ref": "#/components/schemas/Point"
@@ -633,12 +624,7 @@
             "type": "array",
             "items": {
               "type": "string",
-              "enum": [
-                "Up",
-                "Down",
-                "Left",
-                "Right"
-              ]
+              "enum": ["Up", "Down", "Left", "Right"]
             }
           },
           "score": {
