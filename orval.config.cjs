@@ -4,9 +4,7 @@ require('dotenv').config({
 
 module.exports = {
   framboos: {
-    input: process.env.PUBLIC_HOST
-      ? `${process.env.PUBLIC_HOST}/v3/api-docs`
-      : './open-api.json',
+    input: './open-api.json',
     output: {
       mode: 'split',
       target: './app/lib/api/@generated/framboos.ts',

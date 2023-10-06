@@ -1,8 +1,9 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "OpenAPI definition",
-    "version": "v0"
+    "title": "Raspberry Runaround",
+    "description": "Vrolijke Framboos 2023",
+    "version": "1.0"
   },
   "servers": [
     {
@@ -59,6 +60,144 @@
         "tags": ["admin-api"],
         "summary": "Create a new tournament",
         "operationId": "startTournament",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmptyBody"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AdminAPI": []
+          }
+        ]
+      }
+    },
+    "/admin/settings/timing": {
+      "put": {
+        "tags": ["admin-api"],
+        "summary": "Update the timing settings",
+        "operationId": "updateTimingSettings",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TimingSettingsDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmptyBody"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AdminAPI": []
+          }
+        ]
+      }
+    },
+    "/admin/settings/scoring": {
+      "put": {
+        "tags": ["admin-api"],
+        "summary": "Update the scoring settings",
+        "operationId": "updateScoringSettings",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScoringSettingsDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmptyBody"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AdminAPI": []
+          }
+        ]
+      }
+    },
+    "/admin/settings/rounds-per-tournament/{roundsPerTournament}": {
+      "put": {
+        "tags": ["admin-api"],
+        "summary": "Update the number of rounds per tournament",
+        "operationId": "updateRoundsPerTournament",
+        "parameters": [
+          {
+            "name": "roundsPerTournament",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmptyBody"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AdminAPI": []
+          }
+        ]
+      }
+    },
+    "/admin/settings/maze-size/{mazeSize}": {
+      "put": {
+        "tags": ["admin-api"],
+        "summary": "Update the maze size",
+        "operationId": "updateMazeSize",
+        "parameters": [
+          {
+            "name": "mazeSize",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -220,6 +359,30 @@
             }
           }
         }
+      }
+    },
+    "/admin/settings": {
+      "get": {
+        "tags": ["admin-api"],
+        "summary": "Get the game settings",
+        "operationId": "getGameSettings",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GameSettingsDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AdminAPI": []
+          }
+        ]
       }
     },
     "/admin/players": {
@@ -510,6 +673,51 @@
           }
         }
       },
+      "PlayerScore": {
+        "required": [
+          "explorationPoints",
+          "explorationRoundsFinished",
+          "playerEmoji",
+          "playerId",
+          "playerName",
+          "score",
+          "speedRunningPoints",
+          "speedRunningRoundsFinished"
+        ],
+        "type": "object",
+        "properties": {
+          "playerId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "playerName": {
+            "type": "string"
+          },
+          "playerEmoji": {
+            "type": "string"
+          },
+          "explorationRoundsFinished": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "explorationPoints": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "speedRunningRoundsFinished": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "speedRunningPoints": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "score": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
       "Point": {
         "required": ["x", "y"],
         "type": "object",
@@ -525,7 +733,7 @@
         }
       },
       "TournamentDTO": {
-        "required": ["tournamentState"],
+        "required": ["ranking", "tournamentState"],
         "type": "object",
         "properties": {
           "tournamentState": {
@@ -538,11 +746,64 @@
           },
           "game": {
             "$ref": "#/components/schemas/GameDTO"
+          },
+          "ranking": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PlayerScore"
+            }
+          }
+        }
+      },
+      "TimingSettingsDTO": {
+        "required": [
+          "explorationMoveIntervalMs",
+          "idleTimeoutMs",
+          "speedRunMoveIntervalMs"
+        ],
+        "type": "object",
+        "properties": {
+          "idleTimeoutMs": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "explorationMoveIntervalMs": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "speedRunMoveIntervalMs": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "EmptyBody": {
+        "type": "object"
+      },
+      "ScoringSettingsDTO": {
+        "required": [
+          "maxPointsForSpeedRunning",
+          "pointsPerExploration",
+          "speedRunLeniencyFactor"
+        ],
+        "type": "object",
+        "properties": {
+          "pointsPerExploration": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "maxPointsForSpeedRunning": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "speedRunLeniencyFactor": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },
       "PlayerRegistrationRequest": {
-        "required": ["name", "password"],
+        "required": ["emojiAlias", "name", "password"],
         "type": "object",
         "properties": {
           "name": {
@@ -567,6 +828,9 @@
           "id": {
             "type": "string",
             "format": "uuid"
+          },
+          "message": {
+            "type": "string"
           }
         }
       },
@@ -594,6 +858,19 @@
               "RightUp",
               "RightDown"
             ]
+          }
+        }
+      },
+      "GameScore": {
+        "type": "object",
+        "properties": {
+          "exploration": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "speedRunning": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },
@@ -628,25 +905,9 @@
             }
           },
           "score": {
-            "$ref": "#/components/schemas/Score"
+            "$ref": "#/components/schemas/GameScore"
           }
         }
-      },
-      "Score": {
-        "type": "object",
-        "properties": {
-          "exploration": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "speedRunning": {
-            "type": "integer",
-            "format": "int32"
-          }
-        }
-      },
-      "EmptyBody": {
-        "type": "object"
       },
       "Emoji": {
         "required": ["aliases", "description", "emoji"],
@@ -663,6 +924,26 @@
             "items": {
               "type": "string"
             }
+          }
+        }
+      },
+      "GameSettingsDTO": {
+        "required": ["mazeSize", "roundsPerTournament", "scoring", "timing"],
+        "type": "object",
+        "properties": {
+          "mazeSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "roundsPerTournament": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "timing": {
+            "$ref": "#/components/schemas/TimingSettingsDTO"
+          },
+          "scoring": {
+            "$ref": "#/components/schemas/ScoringSettingsDTO"
           }
         }
       },
