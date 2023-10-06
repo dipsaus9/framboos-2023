@@ -6,7 +6,7 @@ import { useTypedFetcher } from 'remix-typedjson'
 import { usePolling } from '~/hooks/usePolling'
 import type { Player } from '~/lib/api/@generated/framboos.schemas'
 import { POLLING_INTERVAL } from '~/lib/POLLING_INTERVAL'
-import type { action } from '~/routes/admin.actions.player.get'
+import type { loader } from '~/routes/admin.loaders.player.get'
 
 import { MazeView } from './Maze'
 
@@ -29,21 +29,17 @@ export function ExplorationView({ players }: ExplorationViewProps) {
 
   const activePlayer = players[activePlayerIndex]
 
-  const { submit, data } = useTypedFetcher<typeof action>()
+  const { submit, data } = useTypedFetcher<typeof loader>()
 
   const getMaze = useCallback(() => {
     if (activePlayer?.id) {
-      const formData = new FormData()
-
-      formData.append('playerId', activePlayer.id)
-
       submit(
         {
           playerId: activePlayer.id,
         },
         {
-          action: '/admin/actions/player/get',
-          method: 'POST',
+          action: '/admin/loaders/player/get',
+          method: 'GET',
         },
       )
     } else {
