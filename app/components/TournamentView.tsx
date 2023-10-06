@@ -63,46 +63,48 @@ export function TournamentView({ tournament }: TournamentViewProps) {
       ) : (
         'No tournament yet'
       )}
-      <table className="min-w-full text-left text-sm font-light">
-        <thead className="border-b border-b-black font-medium dark:border-neutral-500">
-          <tr>
-            <th className="px-6 py-4">Emoji</th>
-            <th className="max-w-md px-6 py-4">Name</th>
-            <th className="px-6 py-4">Nr of moves</th>
-            <th className="px-6 py-4">Position</th>
-            <th className="px-6 py-4">Score</th>
-          </tr>
-        </thead>
-        <tbody>
-          {tournament?.game?.players.map((player) => (
-            <tr
-              key={player.playerId}
-              className="bg-neutral-400 bg-opacity-25 odd:bg-neutral-600 odd:bg-opacity-25"
-            >
-              <td className="whitespace-nowrap px-6 py-4">{player.emoji}</td>
-
-              <td className="max-w-md truncate whitespace-nowrap px-6 py-4">
-                {player.name}
-              </td>
-              <td className="whitespace-nowrap px-6 py-4 hover:underline">
-                {player.nrOfMoves}
-              </td>
-              <td className="whitespace-nowrap px-6 py-4 hover:underline">
-                {`${player.position.x}, ${player.position.y}`}
-              </td>
-              <td className="whitespace-nowrap px-6 py-4 hover:underline">
-                {tournament.ranking.find(
-                  (ranking) => ranking.playerId === player.playerId,
-                )?.score ?? 0}
-              </td>
+      <div className="flex">
+        <table className="text-left text-sm font-light">
+          <thead className="border-b border-b-black font-medium dark:border-neutral-500">
+            <tr>
+              <th className="p-4" />
+              <th className="max-w-md p-4">Name</th>
+              <th className="p-4">Moves</th>
+              <th className="p-4">Position</th>
+              <th className="p-4">Score</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-      <MazeView
-        maze={tournament.game?.maze}
-        players={tournament.game?.players}
-      />
+          </thead>
+          <tbody>
+            {tournament?.game?.players.map((player) => (
+              <tr
+                key={player.playerId}
+                className="bg-neutral-400 bg-opacity-25 odd:bg-neutral-600 odd:bg-opacity-25"
+              >
+                <td className="whitespace-nowrap p-4">{player.emoji}</td>
+
+                <td className="truncate whitespace-nowrap px-2">
+                  {player.name}
+                </td>
+                <td className="whitespace-nowrap p-4 hover:underline">
+                  {player.nrOfMoves}
+                </td>
+                <td className="whitespace-nowrap p-4 hover:underline">
+                  {`${player.position.x}, ${player.position.y}`}
+                </td>
+                <td className="whitespace-nowrap p-4 hover:underline">
+                  {tournament.ranking.find(
+                    (ranking) => ranking.playerId === player.playerId,
+                  )?.score ?? 0}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <MazeView
+          maze={tournament.game?.maze}
+          players={tournament.game?.players}
+        />
+      </div>
     </>
   )
 }

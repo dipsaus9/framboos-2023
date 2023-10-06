@@ -44,9 +44,9 @@ export function ExplorationView({ players }: ExplorationViewProps) {
       )
     }
 
-    if (revalidator.state === 'idle') {
-      revalidator.revalidate()
-    }
+    // if (revalidator.state === 'idle') {
+    revalidator.revalidate()
+    // }
   }, [activePlayer?.id, revalidator, submit])
 
   usePolling(getMaze, POLLING_INTERVAL)
@@ -56,8 +56,8 @@ export function ExplorationView({ players }: ExplorationViewProps) {
   }
 
   return (
-    <>
-      <table className="min-w-full text-left text-sm font-light">
+    <div className="flex">
+      <table className="text-left text-sm font-light">
         <thead className="border-b border-b-black font-medium dark:border-neutral-500">
           <tr>
             <th className="px-6 py-4">Emoji</th>
@@ -81,6 +81,6 @@ export function ExplorationView({ players }: ExplorationViewProps) {
         </tbody>
       </table>
       <MazeView maze={data.maze} players={data.players} />
-    </>
+    </div>
   )
 }

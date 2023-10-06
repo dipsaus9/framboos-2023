@@ -6,8 +6,6 @@ import { TournamentView } from '~/components/TournamentView'
 import { getPlayers, getTournamentState } from '~/lib/api/@generated/framboos'
 import { isLoggedIn } from '~/services/auth.server'
 
-import { POLLING_INTERVAL } from '../lib/POLLING_INTERVAL'
-
 export const meta: MetaFunction = () => {
   return [
     { title: 'Vrolijke Framboos | 2023' },
@@ -42,7 +40,7 @@ export default function Index() {
     <div className="flex flex-col items-center">
       <div className="my-10 flex flex-col items-center justify-center">
         <h1 className="text-5xl font-semibold leading-7 text-gray-900">
-          {isInTournamentMode ? 'Vrolijke framboos' : 'This is practice mode!'}
+          {isInTournamentMode ? '' : 'This is practice mode!'}
         </h1>
         <div className="my-10">
           {isInTournamentMode ? (
