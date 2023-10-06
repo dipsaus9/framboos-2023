@@ -31,7 +31,6 @@ export function TournamentView({ tournament }: TournamentViewProps) {
   }
 
   return (
-    // Render score board here
     <MazeView maze={tournament.game?.maze} players={tournament.game?.players} />
   )
 }

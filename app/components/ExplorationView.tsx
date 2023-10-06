@@ -6,7 +6,7 @@ import { useTypedFetcher } from 'remix-typedjson'
 import { usePolling } from '~/hooks/usePolling'
 import type { Player } from '~/lib/api/@generated/framboos.schemas'
 import { POLLING_INTERVAL } from '~/lib/POLLING_INTERVAL'
-import type { action } from '~/routes/admin.actions.player.get-maze'
+import type { action } from '~/routes/admin.actions.player.get'
 
 import { MazeView } from './Maze'
 
