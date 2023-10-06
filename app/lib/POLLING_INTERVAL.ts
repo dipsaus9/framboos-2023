@@ -1,1 +1,1 @@
-export const POLLING_INTERVAL = 500 // half a second
+export const POLLING_INTERVAL = 100 // half a second

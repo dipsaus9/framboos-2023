@@ -69,6 +69,7 @@ export function TournamentView({ tournament }: TournamentViewProps) {
             <th className="px-6 py-4">Emoji</th>
             <th className="max-w-md px-6 py-4">Name</th>
             <th className="px-6 py-4">Nr of moves</th>
+            <th className="px-6 py-4">Position</th>
             <th className="px-6 py-4">Score</th>
           </tr>
         </thead>
@@ -85,6 +86,9 @@ export function TournamentView({ tournament }: TournamentViewProps) {
               </td>
               <td className="whitespace-nowrap px-6 py-4 hover:underline">
                 {player.nrOfMoves}
+              </td>
+              <td className="whitespace-nowrap px-6 py-4 hover:underline">
+                {`${player.position.x}, ${player.position.y}`}
               </td>
               <td className="whitespace-nowrap px-6 py-4 hover:underline">
                 {tournament.ranking.find(
