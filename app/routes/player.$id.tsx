@@ -83,7 +83,7 @@ export default function PlayerView() {
         <div className="my-10 flex flex-col items-center justify-center">
           {currentPlayer && maze ? (
             <>
-              <h1 className="mb-4 text-3xl font-bold text-blue-900">
+              <h1 className="text-5xl font-semibold leading-7 text-gray-900">
                 Player: {currentPlayer.name}
               </h1>
               <p className="mb-4">Player ID: {currentPlayer.playerId}</p>

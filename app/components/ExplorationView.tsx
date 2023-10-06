@@ -22,7 +22,7 @@ export function ExplorationView({ players }: ExplorationViewProps) {
   useEffect(() => {
     const interval = setInterval(() => {
       setActivePlayerIndex((index) => (index + 1) % players.length)
-    }, 50000)
+    }, 5000)
 
     return () => clearInterval(interval)
   }, [players.length])
@@ -42,7 +42,7 @@ export function ExplorationView({ players }: ExplorationViewProps) {
           playerId: activePlayer.id,
         },
         {
-          action: '/admin/actions/player/get-maze',
+          action: '/admin/actions/player/get',
           method: 'POST',
         },
       )
@@ -56,7 +56,7 @@ export function ExplorationView({ players }: ExplorationViewProps) {
   usePolling(getMaze, POLLING_INTERVAL)
 
   if (!data || !data.maze || !data.players?.length) {
-    return <p>Loading...</p>
+    return <p>Waiting for players to join the game...</p>
   }
 
   return (
@@ -66,7 +66,6 @@ export function ExplorationView({ players }: ExplorationViewProps) {
           <tr>
             <th className="px-6 py-4">Emoji</th>
             <th className="max-w-md px-6 py-4">Name</th>
-            <th className="px-6 py-4">Nr of moves</th>
           </tr>
         </thead>
         <tbody>
@@ -78,12 +77,8 @@ export function ExplorationView({ players }: ExplorationViewProps) {
               }`}
             >
               <td className="whitespace-nowrap px-6 py-4">{player.emoji}</td>
-
               <td className="max-w-md truncate whitespace-nowrap px-6 py-4">
                 {player.name}
-              </td>
-              <td className="whitespace-nowrap px-6 py-4 hover:underline">
-                {player.id}
               </td>
             </tr>
           ))}

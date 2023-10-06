@@ -48,7 +48,7 @@ export default function PlayerView() {
     <div className="flex h-screen w-full flex-col items-center justify-center">
       <div className="flex flex-col items-center">
         <div className="my-10 flex flex-col items-center justify-center">
-          <h1 className=" mb-0 text-3xl font-bold text-blue-900">
+          <h1 className="text-5xl font-semibold leading-7 text-gray-900">
             Player overview
           </h1>
         </div>

@@ -6,7 +6,7 @@ import type {
   PlayerDTO,
 } from '~/lib/api/@generated/framboos.schemas'
 
-const CANVAS_BASE_SIZE = 1000
+const CANVAS_BASE_SIZE = 800
 
 function drawLine(
   ctx: CanvasRenderingContext2D,
