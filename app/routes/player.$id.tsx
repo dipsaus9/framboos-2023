@@ -80,19 +80,25 @@ export default function PlayerView() {
   return (
     <div>
       <div className="flex flex-col items-center">
-        <div className="my-10 flex flex-col items-center justify-center">
+        <div className="my-10 flex flex-col">
           {currentPlayer && maze ? (
             <>
-              <h1 className="text-5xl font-semibold leading-7 text-gray-900">
+              <h1 className="mb-10 text-5xl font-semibold leading-7 text-gray-900">
                 Player: {currentPlayer.name}
               </h1>
-              <p className="mb-4">Player ID: {currentPlayer.playerId}</p>
-              <p className="mb-4">Game ID: {gameId}</p>
-              <p className="mb-4">Total moves: {currentPlayer.nrOfMoves}</p>
+              <p className="mb-1">
+                <strong>Player ID:</strong> {currentPlayer.playerId}
+              </p>
+              <p className="mb-1">
+                <strong>Game ID:</strong> {gameId}
+              </p>
+              <p className="mb-10">
+                <strong>Total moves:</strong> {currentPlayer.nrOfMoves}
+              </p>
               <MazeView maze={maze} players={players} />
             </>
           ) : (
-            <h1 className="mb-0 text-3xl font-bold text-blue-900">
+            <h1 className="mb-10 text-5xl font-semibold leading-7 text-gray-900">
               Currently not in a game, request a new game first
             </h1>
           )}

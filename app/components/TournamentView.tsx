@@ -47,9 +47,16 @@ export function TournamentView({ tournament }: TournamentViewProps) {
         <>
           {tournament.game ? (
             <>
-              <p>Phase: {tournament.game.phase}</p>
-              <p>Round: {tournament.round}</p>
-              <p>Total amount of players: {tournament.game.players.length}</p>
+              <p>
+                <strong>Phase:</strong> {tournament.game.phase}
+              </p>
+              <p>
+                <strong>Round:</strong> {tournament.round}
+              </p>
+              <p>
+                <strong>Total amount of players:</strong>{' '}
+                {tournament.game.players.length}
+              </p>
             </>
           ) : null}
         </>
@@ -80,11 +87,9 @@ export function TournamentView({ tournament }: TournamentViewProps) {
                 {player.nrOfMoves}
               </td>
               <td className="whitespace-nowrap px-6 py-4 hover:underline">
-                {
-                  tournament.ranking.find(
-                    (ranking) => ranking.playerId === player.playerId,
-                  )?.score
-                }
+                {tournament.ranking.find(
+                  (ranking) => ranking.playerId === player.playerId,
+                )?.score ?? 0}
               </td>
             </tr>
           ))}

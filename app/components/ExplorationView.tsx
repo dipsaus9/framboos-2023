@@ -42,10 +42,10 @@ export function ExplorationView({ players }: ExplorationViewProps) {
           method: 'GET',
         },
       )
-    } else {
-      if (revalidator.state === 'idle') {
-        revalidator.revalidate()
-      }
+    }
+
+    if (revalidator.state === 'idle') {
+      revalidator.revalidate()
     }
   }, [activePlayer?.id, revalidator, submit])
 
