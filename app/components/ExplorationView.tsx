@@ -56,31 +56,36 @@ export function ExplorationView({ players }: ExplorationViewProps) {
   }
 
   return (
-    <div className="flex">
-      <table className="text-left text-sm font-light">
-        <thead className="border-b border-b-black font-medium dark:border-neutral-500">
-          <tr>
-            <th className="px-6 py-4">Emoji</th>
-            <th className="max-w-md px-6 py-4">Name</th>
-          </tr>
-        </thead>
-        <tbody>
-          {players.map((player) => (
-            <tr
-              key={player.id}
-              className={`bg-neutral-400 bg-opacity-25 odd:bg-neutral-600 odd:bg-opacity-25 ${
-                player.id === activePlayer.id ? 'font-bold' : ''
-              }`}
-            >
-              <td className="whitespace-nowrap px-6 py-4">{player.emoji}</td>
-              <td className="max-w-md truncate whitespace-nowrap px-6 py-4">
-                {player.name}
-              </td>
+    <>
+      <h1 className="mb-10 text-5xl font-semibold leading-7 text-gray-900">
+        Practice mode
+      </h1>
+      <div className="flex items-start justify-start">
+        <table className="text-left text-sm font-light">
+          <thead className="border-b border-b-black font-medium dark:border-neutral-500">
+            <tr>
+              <th className="px-6 py-4">Emoji</th>
+              <th className="max-w-md px-6 py-4">Name</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-      <MazeView maze={data.maze} players={data.players} />
-    </div>
+          </thead>
+          <tbody>
+            {players.map((player) => (
+              <tr
+                key={player.id}
+                className={`bg-neutral-400 bg-opacity-25 odd:bg-neutral-600 odd:bg-opacity-25 ${
+                  player.id === activePlayer.id ? 'font-bold' : ''
+                }`}
+              >
+                <td className="whitespace-nowrap px-6 py-4">{player.emoji}</td>
+                <td className="max-w-md truncate whitespace-nowrap px-6 py-4">
+                  {player.name}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <MazeView maze={data.maze} players={data.players} />
+      </div>
+    </>
   )
 }

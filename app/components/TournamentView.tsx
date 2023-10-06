@@ -39,7 +39,11 @@ export function TournamentView({ tournament }: TournamentViewProps) {
   }, POLLING_INTERVAL)
 
   if (tournament?.tournamentState === TournamentDTOTournamentState.Waiting) {
-    return <p>Waiting for Game to start...</p>
+    return (
+      <h1 className="text-5xl font-semibold leading-7 text-gray-900">
+        Waiting for game to start
+      </h1>
+    )
   }
 
   if (tournament?.tournamentState === TournamentDTOTournamentState.Finished) {
@@ -113,7 +117,7 @@ export function TournamentView({ tournament }: TournamentViewProps) {
       ) : (
         'No tournament yet'
       )}
-      <div className="flex">
+      <div className="flex items-start justify-start">
         <table className="text-left text-sm font-light">
           <thead className="border-b border-b-black font-medium dark:border-neutral-500">
             <tr>

@@ -55,6 +55,7 @@ export async function action({ request }: ActionFunctionArgs) {
         await updateScoringSettings({
           pointsPerExploration: Number(rest.pointsPerExploration),
           maxPointsForSpeedRunning: Number(rest.maxPointsForSpeedRunning),
+          speedRunLeniencyFactor: Number(rest.speedRunLeniencyFactor),
         })
       } catch {}
       break
